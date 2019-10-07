@@ -20,13 +20,14 @@ public class WorkerServiceImpl implements IWorkerService {
 
     @PostConstruct
     void init(){
+        repository.deleteAll();
         Worker ivan = new Worker("Ivan", "coder",1000);
         Worker stephan = new Worker("Stephan", "coder1",2000);
         Worker johnLenon = new Worker("John Lenon", "guitar",20000);
         workers.add(ivan);
         workers.add(stephan);
         workers.add(johnLenon);
-        //repository.saveAll(workers);
+        repository.saveAll(workers);
     }
 
 
