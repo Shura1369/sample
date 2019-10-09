@@ -1,4 +1,4 @@
-package edu.prog.sample.Services.interfaces;
+package edu.prog.sample.Services.worker.interfaces;
 
 import edu.prog.sample.Model.Worker;
 

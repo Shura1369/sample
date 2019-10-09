@@ -12,11 +12,12 @@
 
 <div>
     <fieldset>
-        <legend>Add student</legend>
-        <form name="student" action="" method="POST">
+        <legend>Edit worker</legend>
+        <form name="worker" action="" method="POST">
             First name      :<@spring.formInput "workerForm.name" "" "text"/>
             <br> Occupation :<@spring.formInput "workerForm.occupation" "" "text"/>
             <br> Salary     :<@spring.formInput "workerForm.salary" "" "text"/>
+            <br> Speciality :<@spring.formSingleSelect "workerForm.speciality" ,mavs,'class ="form-control"'/>
             <br>
 
             <br>

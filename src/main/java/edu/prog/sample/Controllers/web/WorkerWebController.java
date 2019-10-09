@@ -1,18 +1,19 @@
 package edu.prog.sample.Controllers.web;
 
+import edu.prog.sample.Model.Speciality;
 import edu.prog.sample.Model.Worker;
-import edu.prog.sample.Services.impls.WorkerServiceImpl;
+import edu.prog.sample.Services.Speciality.impls.SpecialityServiceImpls;
+import edu.prog.sample.Services.worker.impls.WorkerServiceImpl;
 import edu.prog.sample.forms.WorkerForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
-import sun.security.pkcs11.Secmod;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/worker")
 @CrossOrigin("*")
@@ -21,6 +22,8 @@ public class WorkerWebController {
     @Autowired
     WorkerServiceImpl service;
 
+    @Autowired
+    SpecialityServiceImpls specialityService;
 
 
     @RequestMapping("/list")
@@ -45,6 +48,11 @@ public class WorkerWebController {
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String addWorker(Model model){
         WorkerForm workerForm = new WorkerForm();
+        Map<String, String> mavs = specialityService.getAll().stream()
+                .collect(Collectors.toMap(Speciality::getId, Speciality::getName));
+
+        model.addAttribute("mavs", mavs);
+
 
         model.addAttribute("workerForm", workerForm);
         return "workerAdd";
@@ -52,8 +60,10 @@ public class WorkerWebController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     String create(Model model, @ModelAttribute("workerForm") WorkerForm workerForm)
     {
+        /*String specialityId = workerForm.getSpeciality();
+        Speciality speciality = */
         Worker newWorker = new Worker(workerForm.getName(), workerForm.getOccupation(),
-                workerForm.getSalary());
+                workerForm.getSalary(), specialityService.get(workerForm.getSpeciality()));
         service.create(newWorker);
         return "redirect:/worker/list";
     }
@@ -67,8 +77,14 @@ public class WorkerWebController {
         workerForm.setId(id);
         workerForm.setOccupation(workerToUpdate.getOccupation());
         workerForm.setSalary(workerToUpdate.getSalary());
+        workerForm.setSpeciality(workerToUpdate.getSpeciality().getName());
+
+        Map<String, String> mavs = specialityService.getAll().stream()
+                .collect(Collectors.toMap(Speciality::getId, Speciality::getName));
 
         model.addAttribute("workerForm", workerForm);
+        model.addAttribute("mavs", mavs);
+
         return "workerUpdate";
     }
 
@@ -79,8 +95,8 @@ public class WorkerWebController {
         Worker newWorker = new Worker(
                 workerForm.getName(),
                 workerForm.getOccupation(),
-                workerForm.getSalary());
-        newWorker.setId(workerForm.getId());
+                workerForm.getSalary(),specialityService.get(workerForm.getSpeciality()));
+        newWorker.setId(id);
         service.update(newWorker);
         return "redirect:/worker/list";
     }

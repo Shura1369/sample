@@ -5,6 +5,7 @@ public class WorkerForm {
     private  String name;
     private String occupation;
     private int salary;
+    private String speciality;
 
     public String getId() {
         return id;
@@ -36,6 +37,14 @@ public class WorkerForm {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
     }
 
     @Override
