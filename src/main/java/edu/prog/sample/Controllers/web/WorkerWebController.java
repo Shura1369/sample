@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import sun.util.resources.LocaleData;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,7 +66,8 @@ public class WorkerWebController {
         /*String specialityId = workerForm.getSpeciality();
         Speciality speciality = */
         Worker newWorker = new Worker(workerForm.getName(), workerForm.getOccupation(),
-                workerForm.getSalary(), specialityService.get(workerForm.getSpeciality()));
+                workerForm.getSalary(), specialityService.get(workerForm.getSpeciality()),
+                LocalDate.parse(workerForm.getEmploymentDate(),DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         service.create(newWorker);
         return "redirect:/worker/list";
     }
@@ -78,6 +82,8 @@ public class WorkerWebController {
         workerForm.setOccupation(workerToUpdate.getOccupation());
         workerForm.setSalary(workerToUpdate.getSalary());
         workerForm.setSpeciality(workerToUpdate.getSpeciality().getName());
+        String data = workerToUpdate.getEmploymentDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")).toString();
+                workerForm.setEmploymentDate(data);
 
         Map<String, String> mavs = specialityService.getAll().stream()
                 .collect(Collectors.toMap(Speciality::getId, Speciality::getName));
@@ -95,7 +101,8 @@ public class WorkerWebController {
         Worker newWorker = new Worker(
                 workerForm.getName(),
                 workerForm.getOccupation(),
-                workerForm.getSalary(),specialityService.get(workerForm.getSpeciality()));
+                workerForm.getSalary(),specialityService.get(workerForm.getSpeciality()),
+                LocalDate.parse(workerForm.getEmploymentDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         newWorker.setId(id);
         service.update(newWorker);
         return "redirect:/worker/list";

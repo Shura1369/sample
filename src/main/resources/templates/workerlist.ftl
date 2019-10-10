@@ -19,6 +19,7 @@
                     <th>occupation</th>
                     <th>salary</th>
                     <th>speciality</th>
+                    <th>date</th>
                     <th>delete</th>
                     <th>update</th>
                 </tr>
@@ -31,6 +32,8 @@
                         <td>${worker.occupation}</td>
                         <td>${worker.salary}</td>
                         <td>${worker.speciality.name}</td>
+                        <td>${worker.employmentDate}</td>
+
                         <td>  <a href="/worker/delete/${worker.id}" type="button" class="btn btn-danger">Delete</a></td>
                         <td>  <a href="/worker/update/${worker.id}" type="button" class="btn btn-primary">Update</a></td>
                     </tr>

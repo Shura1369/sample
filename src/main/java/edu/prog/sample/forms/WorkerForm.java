@@ -1,11 +1,14 @@
 package edu.prog.sample.forms;
 
+import java.time.LocalDate;
+
 public class WorkerForm {
     private  String id;
     private  String name;
     private String occupation;
     private int salary;
     private String speciality;
+    private String employmentDate;
 
     public String getId() {
         return id;
@@ -45,6 +48,14 @@ public class WorkerForm {
 
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
+    }
+
+    public String getEmploymentDate() {
+        return employmentDate;
+    }
+
+    public void setEmploymentDate(String employmentDate) {
+        this.employmentDate = employmentDate;
     }
 
     @Override
