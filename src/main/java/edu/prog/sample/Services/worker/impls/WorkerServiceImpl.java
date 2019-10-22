@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class WorkerServiceImpl implements IWorkerService {
@@ -72,5 +75,14 @@ public class WorkerServiceImpl implements IWorkerService {
     {
         return specialities;
     }
+    public List<Speciality> setSpecialities(List<Speciality> specialities)
+    {
+        return this.specialities=specialities;
+    }
 
+    Map<String, Long> getGruped(){
+       return  this.getAll().stream()
+       .collect(Collectors.groupingBy(Worker::getOccupation,
+               Collectors.counting()));
+    }
 }
